@@ -1,0 +1,359 @@
+{
+	"info": {
+		"_postman_id": "13708c61-7ada-47ff-8dba-572c28337acc",
+		"name": "REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21617856"
+	},
+	"item": [
+		{
+			"name": "CreateUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullname\":\"Danylo Savchenko\",\r\n    \"username\":\"danissimo\",\r\n    \"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateSession",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"kabachok2003\",\r\n    \"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/v1/sessions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateSession",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "YmIzZTZkMzM5NGViY2UxN2RiNmE3NjE2MmQwZjFkY2U1NjNmZTc4ZTJmZDA1Mjg3MTY2ODUxNjMxNQ==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refresh_token\":\"YzE4MGRlYzUyZTQ4MmZlNzJmZmMyMmU0MTNiNzM4ZGM3ZWJkYmU0NzQ2YzA3ZGUzMTY2ODUxNjMxNQ==\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/v1/sessions/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"sessions",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteSession",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "YTBmZmQ1MmJkOWFkNGM3MWEwMTg2YWY1ZTE2NWY0Y2Y5NzJkYTQwOGU5YTJmNTBiMTY2ODUxNjA3OA==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/v1/sessions/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"sessions",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTasks",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "YmIzZTZkMzM5NGViY2UxN2RiNmE3NjE2MmQwZjFkY2U1NjNmZTc4ZTJmZDA1Mjg3MTY2ODUxNjMxNQ==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Bedolaga eat meat\",\r\n    \"completed\":\"N\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/v1/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllTasks",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "OTlhNGZlNjQ4MWJiOGZhOGRjNDU5YTAwNDE5OWFiNjUxMDUyNDA4MzU4ZDFjMjI5MTY2ODUxNjcwMg==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/v1/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOneTask",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "OTlhNGZlNjQ4MWJiOGZhOGRjNDU5YTAwNDE5OWFiNjUxMDUyNDA4MzU4ZDFjMjI5MTY2ODUxNjcwMg==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/v1/tasks/13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"tasks",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCompletedTasks",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "OTlhNGZlNjQ4MWJiOGZhOGRjNDU5YTAwNDE5OWFiNjUxMDUyNDA4MzU4ZDFjMjI5MTY2ODUxNjcwMg==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/v1/tasks/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"tasks",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetIncompletedTasks",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "OTlhNGZlNjQ4MWJiOGZhOGRjNDU5YTAwNDE5OWFiNjUxMDUyNDA4MzU4ZDFjMjI5MTY2ODUxNjcwMg==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/v1/tasks/incomplete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"tasks",
+						"incomplete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllTasks_Pagination",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "OTlhNGZlNjQ4MWJiOGZhOGRjNDU5YTAwNDE5OWFiNjUxMDUyNDA4MzU4ZDFjMjI5MTY2ODUxNjcwMg==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/v1/tasks/page/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"tasks",
+						"page",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateTasks",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "OTlhNGZlNjQ4MWJiOGZhOGRjNDU5YTAwNDE5OWFiNjUxMDUyNDA4MzU4ZDFjMjI5MTY2ODUxNjcwMg==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"completed\":\"Y\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/v1/tasks/13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"tasks",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTask",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "OTlhNGZlNjQ4MWJiOGZhOGRjNDU5YTAwNDE5OWFiNjUxMDUyNDA4MzU4ZDFjMjI5MTY2ODUxNjcwMg==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/v1/tasks/13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"tasks",
+						"13"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
