@@ -144,6 +144,19 @@ class Image
         }
     }
 
+    public function renameImageFile($oldFileName, $newFileName)
+    {
+        $originalFilePath = $this->getUploadFolderLocation() . $this->getTaskID() . "/" . $oldFileName;
+        $renamedFilePath = $this->getUploadFolderLocation() . $this->getTaskID() . "/" . $newFileName;
+
+        if (!file_exists($originalFilePath)) {
+            throw new ImageException("Cannot find image file to rename");
+        }
+        if (!rename($originalFilePath, $renamedFilePath)) {
+            throw  new ImageException("Failed to update the filename");
+        }
+    }
+
     public function returnImageAsArray()
     {
         $image = array();

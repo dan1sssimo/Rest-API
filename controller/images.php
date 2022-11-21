@@ -196,10 +196,130 @@ function getImageRoute($readDB, $taskid, $imageid, $returned_userid)
         }
 
     } catch (ImageException $ex) {
-        sendResponse(500, false, $ex->getMessage());
+        sendResponse(400, false, $ex->getMessage());
     } catch (PDOException $ex) {
         error_log("Database Query Error : " . $ex, 0);
         sendResponse(500, false, "Error getting Image");
+    }
+}
+
+function updateImageAttributesRoute($writeDB, $taskid, $imageid, $returned_userid)
+{
+    try {
+        if ($_SERVER['CONTENT_TYPE'] !== 'application/json') {
+            sendResponse(400, false, "Content type header not set to JSON");
+        }
+        $rawPatchData = file_get_contents('php://input');
+        if (!$jsonData = json_decode($rawPatchData)) {
+            sendResponse(400, false, "Request body is not valid JSON");
+        }
+
+        $title_updated = false;
+        $filename_updated = false;
+
+        $queryFields = "";
+
+        if (isset($jsonData->title)) {
+            $title_updated = true;
+            $queryFields .= "tblimages.title = :title, ";
+        }
+
+        if (isset($jsonData->filename)) {
+            if (strpos($jsonData->filename, ".") !== false) {
+                sendResponse(400, false, "Filename cannot contain any dots or file extensions");
+            }
+            $filename_updated = true;
+            $queryFields .= "tblimages.filename = :filename, ";
+        }
+
+        $queryFields = rtrim($queryFields, ", ");
+
+        if ($title_updated === false && $filename_updated === false) {
+            sendResponse(400, false, "No image fields provided");
+        }
+
+        $writeDB->beginTransaction();
+        $query = $writeDB->prepare('SELECT tblimages.id, tblimages.title, tblimages.filename, tblimages.mimetype, tblimages.taskid from tblimages, tbltasks where tblimages.id = :imageid and tblimages.taskid = :taskid and tblimages.taskid = tbltasks.id and tbltasks.userid = :userid');
+        $query->bindParam(':imageid', $imageid, PDO::PARAM_INT);
+        $query->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+        $query->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
+        $query->execute();
+
+        $rowCount = $query->rowCount();
+        if ($rowCount === 0) {
+            if ($writeDB->inTransaction()) {
+                $writeDB->rollBack();
+            }
+            sendResponse(404, false, "No image found to update");
+        }
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $image = new Image($row['id'], $row['title'], $row['filename'], $row['mimetype'], $row['taskid']);
+        }
+        $queryString = "update tblimages inner join tbltasks on tblimages.taskid = tbltasks.id set " . $queryFields . " where tblimages.id = :imageid and tblimages.taskid = tbltasks.id and tblimages.taskid = :taskid and tbltasks.userid = :userid";
+        $query = $writeDB->prepare($queryString);
+        if ($title_updated === true) {
+            $image->setTitle($jsonData->title);
+            $up_title = $image->getTitle();
+            $query->bindParam(':title', $up_title, PDO::PARAM_STR);
+        }
+        if ($filename_updated === true) {
+            $originalFilename = $image->getFilename();
+            $image->setFilename($jsonData->filename . "." . $image->getFileExtension());
+            $up_filename = $image->getFilename();
+            $query->bindParam(':filename', $up_filename, PDO::PARAM_STR);
+        }
+
+        $query->bindParam(':imageid', $imageid, PDO::PARAM_INT);
+        $query->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+        $query->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
+        $query->execute();
+
+        $rowCount = $query->rowCount();
+
+        if ($rowCount === 0) {
+            if ($writeDB->inTransaction()) {
+                $writeDB->rollBack();
+            }
+            sendResponse(400, false, "Image attributes not updated - given values may be the same as the stored values");
+        }
+
+        $query = $writeDB->prepare('SELECT tblimages.id, tblimages.title, tblimages.filename, tblimages.mimetype, tblimages.taskid from tblimages, tbltasks where tblimages.id = :imageid and tbltasks.id = :taskid and tbltasks.userid = :userid and tblimages.taskid = tbltasks.id');
+        $query->bindParam(':imageid', $imageid, PDO::PARAM_INT);
+        $query->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+        $query->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
+        $query->execute();
+
+        $rowCount = $query->rowCount();
+
+        if ($rowCount === 0) {
+            if ($writeDB->inTransaction()) {
+                $writeDB->rollBack();
+            }
+            sendResponse(404, false, "No image found");
+        }
+
+        $imageArray = array();
+
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $image = new Image($row['id'], $row['title'], $row['filename'], $row['mimetype'], $row['taskid']);
+            $imageArray[] = $image->returnImageAsArray();
+        }
+        if ($filename_updated === true) {
+            $image->renameImageFile($originalFilename, $up_filename);
+        }
+        $writeDB->commit();
+        sendResponse(200, true, "Image attributes updated", false, $imageArray);
+    } catch (ImageException $ex) {
+        if ($writeDB->inTransaction()) {
+            $writeDB->rollBack();
+        }
+        sendResponse(400, false, $ex->getMessage());
+    } catch (PDOException $ex) {
+        error_log("Database Query Error : " . $ex, 0);
+        if ($writeDB->inTransaction()) {
+            $writeDB->rollBack();
+        }
+        sendResponse(500, false, "Failed to update Image - check your data for errors");
     }
 }
 
@@ -276,7 +396,7 @@ if (array_key_exists("taskid", $_GET) && array_key_exists("imageid", $_GET) && a
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         getImageAttributesRoute($readDB, $taskid, $imageid, $returned_userid);
     } elseif ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
-
+        updateImageAttributesRoute($writeDB, $taskid, $imageid, $returned_userid);
     } else {
         sendResponse(405, false, "Request method not allowed");
     }
