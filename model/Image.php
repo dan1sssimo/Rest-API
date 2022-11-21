@@ -68,6 +68,24 @@ class Image
         return $httpOrHttps . "://" . $host . $url;
     }
 
+    public function returnImageFile()
+    {
+        $filepath = $this->getUploadFolderLocation() . $this->getTaskID() . '/' . $this->getFilename();
+
+        if (!file_exists($filepath)) {
+            throw new ImageException("Image file not found");
+        }
+
+        header('Content-Type: ' . $this->getMimetype());
+        header('Content-Disposition: inline; filename="' . $this->getFilename() . '"');
+
+        if (!readfile($filepath)) {
+            http_response_code(404);
+            exit();
+        }
+        exit();
+    }
+
     public function setID($id)
     {
         if (($id !== null) && (!is_numeric($id) || $id <= 0 || $id > 9223372036854775807 || $this->_id !== null)) {
