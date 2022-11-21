@@ -157,6 +157,16 @@ class Image
         }
     }
 
+    public function deleteImageFile()
+    {
+        $filepath = $this->getUploadFolderLocation() . $this->getTaskID() . "/" . $this->getFilename();
+        if (file_exists($filepath)) {
+            if (!unlink($filepath)) {
+                throw new ImageException("Failed to delete image file");
+            }
+        }
+    }
+
     public function returnImageAsArray()
     {
         $image = array();
