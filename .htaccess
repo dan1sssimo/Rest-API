@@ -5,6 +5,8 @@ Header Set Access-Contol-Allow-Origin "*"
 php_flag display_errors on
 SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
 
+Options -Indexes
+
 # Turn on the rewrite engine
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -23,3 +25,8 @@ RewriteRule ^users$ controller/users.php [L]
 # Authentication
 RewriteRule ^sessions/(\d+)$ controller/sessions.php?sessionid=$1 [L]
 RewriteRule ^sessions$ controller/sessions.php [L]
+
+# Images
+RewriteRule ^tasks/(\d+)/images/(\d+)/attributes$ controller/images.php?taskid=$1&imageid=$2&attributes=true [L]  # handle image
+RewriteRule ^tasks/(\d+)/images/(\d+)$ controller/images.php?taskid=$1&imageid=$2 [L]
+RewriteRule ^tasks/(\d+)/images$ controller/images.php?taskid=$1 [L]
