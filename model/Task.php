@@ -11,15 +11,17 @@ class Task
     private $_description;
     private $_deadline;
     private $_completed;
+    private $_images;
 
 
-    public function __construct($id, $title, $description, $deadline, $completed)
+    public function __construct($id, $title, $description, $deadline, $completed, $images = array())
     {
         $this->setID($id);
         $this->setTitle($title);
         $this->setDescription($description);
         $this->setDeadline($deadline);
         $this->setCompleted($completed);
+        $this->setImages($images);
     }
 
 
@@ -46,6 +48,11 @@ class Task
     public function getCompleted()
     {
         return $this->_completed;
+    }
+
+    public function getImages()
+    {
+        return $this->_images;
     }
 
     public function setID($id)
@@ -88,6 +95,14 @@ class Task
         $this->_completed = $completed;
     }
 
+    public function setImages($images)
+    {
+        if (!is_array($images)) {
+            throw new TaskException("Images is not an array");
+        }
+        $this->_images = $images;
+    }
+
     public function returnTaskAsArray()
     {
         $task = array();
@@ -96,6 +111,7 @@ class Task
         $task['description'] = $this->getDescription();
         $task['deadline'] = $this->getDeadline();
         $task['completed'] = $this->getCompleted();
+        $task['images'] = $this->getImages();
         return $task;
     }
 

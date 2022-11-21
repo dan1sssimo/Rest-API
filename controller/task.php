@@ -3,6 +3,24 @@
 require_once('DB.php');
 require_once('../model/Task.php');
 require_once('../model/Response.php');
+require_once('../model/Image.php');
+
+function retrieveTaskImages($dbConnection, $taskid, $returned_userid)
+{
+    $imageQuery = $dbConnection->prepare('SELECT tblimages.id, tblimages.title, tblimages.filename, tblimages.mimetype, tblimages.taskid from tblimages, tbltasks where tbltasks.id = :taskid and tbltasks.userid = :userid and tblimages.taskid = tbltasks.id');
+    $imageQuery->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+    $imageQuery->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
+    $imageQuery->execute();
+
+    $imageArray = array();
+
+    while ($imageRow = $imageQuery->fetch(PDO::FETCH_ASSOC)) {
+        $image = new Image($imageRow['id'], $imageRow['title'], $imageRow['filename'], $imageRow['mimetype'], $imageRow['taskid']);
+        $imageArray[] = $image->returnImageAsArray();
+    }
+
+    return $imageArray;
+}
 
 try {
     $writeDB = DB::connectWriteDB();
@@ -119,7 +137,8 @@ if (array_key_exists("taskid", $_GET)) {
             }
 
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed']);
+                $imageArray = retrieveTaskImages($readDB, $taskid, $returned_userid);
+                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed'], $imageArray);
                 $taskArray[] = $task->returnTaskAsArray();
             }
 
@@ -132,6 +151,13 @@ if (array_key_exists("taskid", $_GET)) {
             $response->setSuccess(true);
             $response->toCache(true);
             $response->setData($returnData);
+            $response->send();
+            exit;
+        } catch (ImageException $ex) {
+            $response = new Response();
+            $response->setHttpStatusCode(500);
+            $response->setSuccess(false);
+            $response->addMessage($ex->getMessage());
             $response->send();
             exit;
         } catch (TaskException $ex) {
@@ -152,6 +178,24 @@ if (array_key_exists("taskid", $_GET)) {
         }
     } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         try {
+            $imageSelectQuery = $readDB->prepare('SELECT tblimages.id, tblimages.title, tblimages.filename, tblimages.mimetype, tblimages.taskid from tblimages, tbltasks where tbltasks.id = :taskid and tbltasks.userid = :userid and tblimages.taskid = tbltasks.id');
+            $imageSelectQuery->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+            $imageSelectQuery->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
+            $imageSelectQuery->execute();
+            while ($imageRow = $imageSelectQuery->fetch(PDO::FETCH_ASSOC)) {
+                $writeDB->beginTransaction();
+                $image = new Image($imageRow['id'], $imageRow['title'], $imageRow['filename'], $imageRow['mimetype'], $imageRow['taskid']);
+                $imageID = $image->getID();
+                $query = $writeDB->prepare('delete tblimages from tblimages, tbltasks where tblimages.id = :imageid and tblimages.taskid = :taskid and tblimages.taskid = tbltasks.id and tbltasks.userid = :userid');
+                $query->bindParam(':imageid', $imageID, PDO::PARAM_INT);
+                $query->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+                $query->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
+                $query->execute();
+
+                $image->deleteImageFile();
+
+                $writeDB->commit();
+            }
             $query = $writeDB->prepare('delete from tbltasks where id = :taskid and userid = :userid');
             $query->bindParam(':taskid', $taskid, PDO::PARAM_INT);
             $query->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
@@ -167,13 +211,32 @@ if (array_key_exists("taskid", $_GET)) {
                 $response->send();
                 exit;
             }
+
+            $taskImageFolder = "../../../taskimages/" . $taskid;
+            if (is_dir($taskImageFolder)) {
+                rmdir($taskImageFolder);
+            }
+
             $response = new Response();
             $response->setHttpStatusCode(200);
             $response->setSuccess(true);
             $response->addMessage("Task deleted");
             $response->send();
             exit;
+        } catch (ImageException $ex) {
+            if ($writeDB->inTransaction()) {
+                $writeDB->rollBack();
+            }
+            $response = new Response();
+            $response->setHttpStatusCode(400);
+            $response->setSuccess(false);
+            $response->addMessage($ex->getMessage());
+            $response->send();
+            exit;
         } catch (PDOException $ex) {
+            if ($writeDB->inTransaction()) {
+                $writeDB->rollBack();
+            }
             $response = new Response();
             $response->setHttpStatusCode(500);
             $response->setSuccess(false);
@@ -298,7 +361,8 @@ if (array_key_exists("taskid", $_GET)) {
             }
             $taskArray = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed']);
+                $imageArray = retrieveTaskImages($writeDB, $taskid, $returned_userid);
+                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed'], $imageArray);
                 $taskArray[] = $task->returnTaskAsArray();
             }
             $returnData = array();
@@ -309,6 +373,13 @@ if (array_key_exists("taskid", $_GET)) {
             $response->setSuccess(true);
             $response->addMessage("Task updated");
             $response->setData($returnData);
+            $response->send();
+            exit;
+        } catch (ImageException $ex) {
+            $response = new Response();
+            $response->setHttpStatusCode(400);
+            $response->setSuccess(false);
+            $response->addMessage($ex->getMessage());
             $response->send();
             exit;
         } catch (TaskException $ex) {
@@ -358,7 +429,8 @@ if (array_key_exists("taskid", $_GET)) {
             $taskArray = array();
 
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed']);
+                $imageArray = retrieveTaskImages($readDB, $row['id'], $returned_userid);
+                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed'], $imageArray);
                 $taskArray[] = $task->returnTaskAsArray();
             }
 
@@ -371,6 +443,13 @@ if (array_key_exists("taskid", $_GET)) {
             $response->setSuccess(true);
             $response->toCache(true);
             $response->setData($returnData);
+            $response->send();
+            exit();
+        } catch (ImageException $ex) {
+            $response = new Response();
+            $response->setHttpStatusCode(500);
+            $response->setSuccess(false);
+            $response->addMessage($ex->getMessage());
             $response->send();
             exit();
         } catch (TaskException $ex) {
@@ -448,7 +527,8 @@ if (array_key_exists("taskid", $_GET)) {
             $rowCount = $query->rowCount();
             $taskArray = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed']);
+                $imageArray = retrieveTaskImages($readDB, $row['id'], $returned_userid);
+                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed'], $imageArray);
                 $taskArray[] = $task->returnTaskAsArray();
             }
             $returnData = array();
@@ -463,6 +543,13 @@ if (array_key_exists("taskid", $_GET)) {
             $response->setSuccess(true);
             $response->toCache(true);
             $response->setData($returnData);
+            $response->send();
+            exit();
+        } catch (ImageException $ex) {
+            $response = new Response();
+            $response->setHttpStatusCode(500);
+            $response->setSuccess(false);
+            $response->addMessage($ex->getMessage());
             $response->send();
             exit();
         } catch (TaskException $ex) {
@@ -503,8 +590,8 @@ if (array_key_exists("taskid", $_GET)) {
             $taskArray = array();
 
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-
-                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed']);
+                $imageArray = retrieveTaskImages($readDB, $row['id'], $returned_userid);
+                $task = new Task($row['id'], $row['title'], $row['description'], $row['deadline'], $row['completed'], $imageArray);
 
 
                 $taskArray[] = $task->returnTaskAsArray();
@@ -520,6 +607,13 @@ if (array_key_exists("taskid", $_GET)) {
             $response->setSuccess(true);
             $response->toCache(true);
             $response->setData($returnData);
+            $response->send();
+            exit;
+        } catch (ImageException $ex) {
+            $response = new Response();
+            $response->setHttpStatusCode(500);
+            $response->setSuccess(false);
+            $response->addMessage($ex->getMessage());
             $response->send();
             exit;
         } catch (TaskException $ex) {
