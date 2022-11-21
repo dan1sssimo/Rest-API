@@ -18,9 +18,21 @@ try {
     exit();
 }
 
+// CORS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Allow-Methods: Content-Type');
+    header('Access-Control-Max-Age: 86400');
+    $response = new Response();
+    $response->setHttpStatusCode(200);
+    $response->setSuccess(true);
+    $response->send();
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $response = new Response();
-    $response->setHttpStatusCode(400);
+    $response->setHttpStatusCode(405);
     $response->setSuccess(false);
     $response->addMessage("Request method not allowed");
     $response->send();

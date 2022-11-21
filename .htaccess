@@ -1,17 +1,25 @@
+# CORS options
+Header Set Access-Contol-Allow-Origin "*"
+
+# Enable explicity when needed
 php_flag display_errors on
 SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
 
+# Turn on the rewrite engine
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond ${REQUEST_FILENAME} !-f
 
+# Tasks
 RewriteRule ^tasks/(\d+)$ controller/task.php?taskid=$1 [L]
 RewriteRule ^tasks/complete$ controller/task.php?completed=Y [L]
 RewriteRule ^tasks/incomplete$ controller/task.php?completed=N [L]
 RewriteRule ^tasks/page/(\d+)$ controller/task.php?page=$1 [L]
 RewriteRule ^tasks$ controller/task.php [L]
 
+# Users
 RewriteRule ^users$ controller/users.php [L]
 
+# Authentication
 RewriteRule ^sessions/(\d+)$ controller/sessions.php?sessionid=$1 [L]
 RewriteRule ^sessions$ controller/sessions.php [L]
