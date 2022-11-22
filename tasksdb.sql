@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 21, 2022 at 07:01 PM
+-- Generation Time: Nov 22, 2022 at 09:56 AM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -41,7 +41,8 @@ CREATE TABLE `tblimages` (
 
 INSERT INTO `tblimages` (`id`, `title`, `filename`, `mimetype`, `taskid`) VALUES
 (5, 'Image 1 Title', 'Name.jpg', 'image/jpeg', 12),
-(6, 'Image 1 Title1', 'Name1.jpg', 'image/jpeg', 12);
+(6, 'Image 1 Title1', 'Name1.jpg', 'image/jpeg', 12),
+(7, 'newtitle', 'newTitle1.jpg', 'image/jpeg', 13);
 
 -- --------------------------------------------------------
 
@@ -68,7 +69,10 @@ INSERT INTO `tblsessions` (`id`, `userid`, `accesstoken`, `accesstokenexpiry`, `
 (4, 1, 'NzI0NDY2NzE3MzM3YzBlZmE4ZmJlOTJlMDQ5ZWEwZTg0MzdjOWIxNDk0ZmIzNzI5MTY2OTAyODk2NQ==', '2022-11-21 13:29:25', 'MTk5MTEzM2M5OTI2NTMzN2U3NTk2MjkwZjcxMmYwZjYwZWQ3NjZhMGU1NGMyMjg1MTY2OTAyODk2NQ==', '2022-12-05 13:09:25'),
 (5, 1, 'NmI5ZmU1ZTMxMWUzOWQyNjk1ZjNiZTE1ZTEwNmU2ZjdhNGM0NmI3YmE5MjRjODYyMTY2OTAzNTM5Mw==', '2022-11-21 15:16:33', 'Y2E3ZDExNTU2MGI2YjZmZWQ3NWIxZjc1MjY1OThlMDRjNjJjOWE4MTkzMGVlNjI1MTY2OTAzNTM5Mw==', '2022-12-05 14:56:33'),
 (6, 1, 'ZWQxZGEyZWM1N2VlM2I3YmFkMTkwMWViMjQyYTdiMTczZmZiNmQ1NzBlMWRkZWZhMTY2OTAzNjkzMw==', '2022-11-21 15:42:13', 'ZTkzZDUzMTMzNjA2NTJjNzBmZjI2NzJlZTY4OTM3ZWY2MTVkMzZmZDRhZTBhODZmMTY2OTAzNjkzMw==', '2022-12-05 15:22:13'),
-(7, 1, 'OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==', '2022-11-21 20:23:16', 'Y2ZkZGY5ZjJjOWRlNDA4YTJkNTAxMzJmYTFkZGI4MWE5MDQ4NDc5Yzc3MTdiMzJhMTY2OTA1Mzc5Ng==', '2022-12-05 20:03:16');
+(7, 1, 'OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==', '2022-11-21 20:23:16', 'Y2ZkZGY5ZjJjOWRlNDA4YTJkNTAxMzJmYTFkZGI4MWE5MDQ4NDc5Yzc3MTdiMzJhMTY2OTA1Mzc5Ng==', '2022-12-05 20:03:16'),
+(8, 1, 'NWY5YWI0OTNhNWM1ZjBhNzhjYzk1NjM5MTk2NmZmYjhjNjc1MmYyNjhkMjMyOTJmMTY2OTEwOTUzMg==', '2022-11-22 11:52:12', 'ZjZlNzMzNzY1N2UyZTk3YzY3MzBmYzdiOWIxOWM0MjdkN2QzYzQ2ODMzZTBiMDI2MTY2OTEwOTUzMg==', '2022-12-06 11:32:12'),
+(10, 3, 'MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==', '2022-11-22 11:54:41', 'MTQ3MzkyNzk4ZmViNDFlOTc4ZjZjNDMyNzI1ZDk0MzYzMmMxNjRmNjhiN2JiNWE0MTY2OTEwOTY4MQ==', '2022-12-06 11:34:41'),
+(11, 3, 'MDllY2ZjNzY5ZWQ5ZTg5ZmEzNzM5N2JjMjFlYWMxZmQzMDUyY2I5MjI0NTVlODYzMTY2OTExMDM1NQ==', '2022-11-22 12:05:55', 'NzFhN2IwYzNmYzI1M2IxOWVhZjc5NTUwZTRhYmI3NzNjYWQ2ZjAzOWY4Y2E4NWJjMTY2OTExMDM1NQ==', '2022-12-06 11:45:55');
 
 -- --------------------------------------------------------
 
@@ -90,7 +94,8 @@ CREATE TABLE `tbltasks` (
 --
 
 INSERT INTO `tbltasks` (`id`, `title`, `description`, `deadline`, `completed`, `userid`) VALUES
-(12, 'Danissimo eat', NULL, NULL, 'Y', 1);
+(12, 'Danissimo eat', NULL, NULL, 'Y', 1),
+(13, 'Bedolaga eat meat', NULL, NULL, 'N', 3);
 
 -- --------------------------------------------------------
 
@@ -113,7 +118,8 @@ CREATE TABLE `tblusers` (
 
 INSERT INTO `tblusers` (`id`, `fullname`, `username`, `password`, `useractive`, `loginattempts`) VALUES
 (1, 'Danylo Savchenko', 'danissimo', '$2y$10$8gWabqanHe.sDlZ/s/aj4uAnVz1TwO2ucKLGymF24zt07oD7keBfy', 'Y', 0),
-(2, 'Sofia Kabachok', 'kabachok2003', '$2y$10$qvMoXp1IJMX3dtuyWyOnYeITCft8yHRvYOGjel5KykwKa9IMfZcs.', 'Y', 0);
+(2, 'Sofia Kabachok', 'kabachok2003', '$2y$10$qvMoXp1IJMX3dtuyWyOnYeITCft8yHRvYOGjel5KykwKa9IMfZcs.', 'Y', 0),
+(3, 'Danylo Savchenko', 'dan1ssimo', '$2y$10$P7kFLIGgKmr6AJVwzFzDu.NEccBrat/y8an2XG620zTmjBumY1mIe', 'Y', 0);
 
 --
 -- Indexes for dumped tables
@@ -157,25 +163,25 @@ ALTER TABLE `tblusers`
 -- AUTO_INCREMENT for table `tblimages`
 --
 ALTER TABLE `tblimages`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Image ID Number - Primary Key', AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Image ID Number - Primary Key', AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblsessions`
 --
 ALTER TABLE `tblsessions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Session ID', AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Session ID', AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbltasks`
 --
 ALTER TABLE `tbltasks`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Task ID - Primary Key', AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Task ID - Primary Key', AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tblusers`
 --
 ALTER TABLE `tblusers`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'User ID', AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'User ID', AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

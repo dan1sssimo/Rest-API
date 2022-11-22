@@ -3,31 +3,16 @@
 require_once('DB.php');
 require_once('../model/Response.php');
 require_once('../model/Image.php');
+require_once('../Utils/ResponseFunc.php');
 
-function sendResponse($statusCode, $success, $message = null, $toCache = false, $data = null)
-{
-    $response = new Response();
-    $response->setHttpStatusCode($statusCode);
-    $response->setSuccess($success);
-    if ($message !== null) {
-        $response->addMessage($message);
-    }
-    $response->toCache($toCache);
-    if ($data !== null) {
-        $response->setData($data);
-    }
-    $response->send();
-    exit();
-}
-
-function uploadImageRoute($readDB, $writeDB, $taskid, $returned_userid)
+function uploadImageRoute($readDB, $writeDB, $taskID, $returned_userid)
 {
     try {
         if (!isset($_SERVER['CONTENT_TYPE']) || strpos($_SERVER['CONTENT_TYPE'], "multipart/form-data; boundary=") === false) {
             sendResponse(400, false, "Content type header not set to multipart/form-data with a boundary");
         }
         $query = $readDB->prepare('select id from tbltasks where id = :taskid and userid= :userid');
-        $query->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+        $query->bindParam(':taskid', $taskID, PDO::PARAM_INT);
         $query->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
         $query->execute();
 
@@ -79,13 +64,13 @@ function uploadImageRoute($readDB, $writeDB, $taskid, $returned_userid)
         if ($fileExtension == "") {
             sendResponse(400, false, "No valid file extension found for mimetype");
         }
-        $image = new Image(null, $jsonImageAttributes->title, $jsonImageAttributes->filename . $fileExtension, $imageFileDetails['mime'], $taskid);
+        $image = new Image(null, $jsonImageAttributes->title, $jsonImageAttributes->filename . $fileExtension, $imageFileDetails['mime'], $taskID);
         $title = $image->getTitle();
         $newFileName = $image->getFilename();
         $mimetype = $image->getMimetype();
 
         $query = $readDB->prepare('select tblimages.id from tblimages, tbltasks where tblimages.taskid = tbltasks.id and tbltasks.id = :taskid and tbltasks.userid = :userid and tblimages.filename = :filename');
-        $query->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+        $query->bindParam(':taskid', $taskID, PDO::PARAM_INT);
         $query->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
         $query->bindParam(':filename', $newFileName, PDO::PARAM_STR);
         $query->execute();
@@ -102,7 +87,7 @@ function uploadImageRoute($readDB, $writeDB, $taskid, $returned_userid)
         $query->bindParam(':title', $title, PDO::PARAM_STR);
         $query->bindParam(':filename', $newFileName, PDO::PARAM_STR);
         $query->bindParam(':mimetype', $mimetype, PDO::PARAM_STR);
-        $query->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+        $query->bindParam(':taskid', $taskID, PDO::PARAM_INT);
         $query->execute();
 
         $rowCount = $query->rowCount();
@@ -117,7 +102,7 @@ function uploadImageRoute($readDB, $writeDB, $taskid, $returned_userid)
 
         $query = $writeDB->prepare('select tblimages.id, tblimages.title, tblimages.filename, tblimages.mimetype, tblimages.taskid from tblimages, tbltasks where tblimages.id = :imageid and tbltasks.id = :taskid and tbltasks.userid = :userid and tblimages.taskid = tbltasks.id');
         $query->bindParam(':imageid', $lastImageID, PDO::PARAM_INT);
-        $query->bindParam(':taskid', $taskid, PDO::PARAM_INT);
+        $query->bindParam(':taskid', $taskID, PDO::PARAM_INT);
         $query->bindParam(':userid', $returned_userid, PDO::PARAM_INT);
         $query->execute();
 
@@ -165,7 +150,7 @@ function getImageAttributesRoute($readDB, $taskid, $imageid, $returned_userid)
             $image = new Image($row['id'], $row['title'], $row['filename'], $row['mimetype'], $row['taskid']);
             $imageArray[] = $image->returnImageAsArray();
         }
-        sendResponse(200, true, null, true, $imageArray);
+        sendResponse(200, true, "Image attributes", true, $imageArray);
     } catch (ImageException $ex) {
         sendResponse(500, false, $ex->getMessage());
     } catch (PDOException $ex) {
@@ -380,7 +365,6 @@ function deleteImageRoute($writeDB, $taskid, $imageid, $returned_userid)
 
 function checkAuthStatusAndReturnUserID($writeDB)
 {
-// begin auth script
     if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
         $message = null;
         if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -393,11 +377,11 @@ function checkAuthStatusAndReturnUserID($writeDB)
         sendResponse(401, false, $message);
     }
 
-    $accesstoken = $_SERVER['HTTP_AUTHORIZATION'];
+    $accessToken = $_SERVER['HTTP_AUTHORIZATION'];
 
     try {
         $query = $writeDB->prepare('select userid, accesstokenexpiry, useractive, loginattempts from tblsessions, tblusers where tblsessions.userid = tblusers.id and accesstoken = :accesstoken');
-        $query->bindParam(':accesstoken', $accesstoken, PDO::PARAM_STR);
+        $query->bindParam(':accesstoken', $accessToken, PDO::PARAM_STR);
         $query->execute();
 
         $rowCount = $query->rowCount();
@@ -409,24 +393,24 @@ function checkAuthStatusAndReturnUserID($writeDB)
         $row = $query->fetch(PDO::FETCH_ASSOC);
 
         $returned_userid = $row['userid'];
-        $returned_accesstokenexpiry = $row['accesstokenexpiry'];
-        $returned_useractive = $row['useractive'];
-        $returned_loginattempts = $row['loginattempts'];
+        $returned_access_token_expiry = $row['accesstokenexpiry'];
+        $returned_user_active = $row['useractive'];
+        $returned_login_attempts = $row['loginattempts'];
 
-        if ($returned_useractive !== 'Y') {
+        if ($returned_user_active !== 'Y') {
             sendResponse(401, false, "User account is not active");
         }
-        if ($returned_loginattempts >= 3) {
+        if ($returned_login_attempts >= 3) {
             sendResponse(401, false, "User account is currently locked out");
         }
-        if (strtotime($returned_accesstokenexpiry) < time()) {
+        if (strtotime($returned_access_token_expiry) < time()) {
             sendResponse(401, false, "Access token has expired - please log in again");
         }
         return $returned_userid;
     } catch (PDOException $ex) {
         sendResponse(500, false, "There was an issue authenticating - please try again");
     }
-// end auth script
+    return null;
 }
 
 try {
@@ -455,7 +439,6 @@ if (array_key_exists("taskid", $_GET) && array_key_exists("imageid", $_GET) && a
     } else {
         sendResponse(405, false, "Request method not allowed");
     }
-// /tasks/1/images/5
 } elseif (array_key_exists("taskid", $_GET) && array_key_exists("imageid", $_GET)) {
     $taskid = $_GET['taskid'];
     $imageid = $_GET['imageid'];
@@ -469,8 +452,7 @@ if (array_key_exists("taskid", $_GET) && array_key_exists("imageid", $_GET) && a
     } else {
         sendResponse(405, false, "Request method not allowed");
     }
-} // /tasks/1/images
-elseif (array_key_exists("taskid", $_GET) && !array_key_exists("imageid", $_GET)) {
+} elseif (array_key_exists("taskid", $_GET) && !array_key_exists("imageid", $_GET)) {
     $taskid = $_GET['taskid'];
     if ($taskid == '' || !is_numeric($taskid)) {
         sendResponse(400, false, "Task ID cannot be blank and must be numeric");

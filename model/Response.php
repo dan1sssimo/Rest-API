@@ -38,7 +38,7 @@ class Response
     {
         header('Content-type: application/json;charset=utf-8');
 
-        if ($this->_toCache == true) {
+        if ($this->_toCache) {
             header('Cache-control: max-age=60');
         } else {
             header('Cache-control: no-cache, no-store');
@@ -60,6 +60,4 @@ class Response
 
         echo json_encode($this->_responseData);
     }
-
-
 }

@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"fullname\":\"Danylo Savchenko\",\r\n    \"username\":\"danissimo\",\r\n    \"password\":\"password\"\r\n}",
+					"raw": "{\r\n    \"fullname\":\"Danylo Savchenko\",\r\n    \"username\":\"dan1ssimo\",\r\n    \"password\":\"password\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +41,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"danissimo\",\r\n    \"password\":\"password\"\r\n}",
+					"raw": "{\r\n    \"username\":\"dan1ssimo\",\r\n    \"password\":\"password\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -69,13 +69,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "YmIzZTZkMzM5NGViY2UxN2RiNmE3NjE2MmQwZjFkY2U1NjNmZTc4ZTJmZDA1Mjg3MTY2ODUxNjMxNQ==",
+						"value": "MzZmMTkzNDg1MGZkODM3ZTY2MzUyNGIzZDgxZGUyZjEzODhhNmZiZjAxNzRhODMyMTY2OTEwOTU0NQ==",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"refresh_token\":\"YzE4MGRlYzUyZTQ4MmZlNzJmZmMyMmU0MTNiNzM4ZGM3ZWJkYmU0NzQ2YzA3ZGUzMTY2ODUxNjMxNQ==\"\r\n}",
+					"raw": "{\r\n    \"refresh_token\":\"ZjRiYzAxMzFjNjhmNmIyZDUyYzhmYTdmODExMzk3MWI3ZTQ0NTJkM2M0OWY0YWVkMTY2OTEwOTU0NQ==\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -83,7 +83,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/v1/sessions/2",
+					"raw": "http://localhost/v1/sessions/9",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -91,7 +91,7 @@
 					"path": [
 						"v1",
 						"sessions",
-						"2"
+						"9"
 					]
 				}
 			},
@@ -104,12 +104,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "YTBmZmQ1MmJkOWFkNGM3MWEwMTg2YWY1ZTE2NWY0Y2Y5NzJkYTQwOGU5YTJmNTBiMTY2ODUxNjA3OA==",
+						"value": "NzI1YTU1MzQ0YTA0MDJjMzg5NTVjMGQ1YTJlNjA1MjFlYjRmYWQwY2U4YzQ5MGJkMTY2OTEwOTU5OA==",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost/v1/sessions/1",
+					"raw": "http://localhost/v1/sessions/9",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -117,7 +117,7 @@
 					"path": [
 						"v1",
 						"sessions",
-						"1"
+						"9"
 					]
 				}
 			},
@@ -130,7 +130,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "YmIzZTZkMzM5NGViY2UxN2RiNmE3NjE2MmQwZjFkY2U1NjNmZTc4ZTJmZDA1Mjg3MTY2ODUxNjMxNQ==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
@@ -164,7 +164,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
@@ -189,12 +189,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost/v1/tasks/12",
+					"raw": "http://localhost/v1/tasks/13",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -202,7 +202,7 @@
 					"path": [
 						"v1",
 						"tasks",
-						"12"
+						"13"
 					]
 				}
 			},
@@ -215,7 +215,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
@@ -241,7 +241,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
@@ -267,7 +267,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
@@ -294,13 +294,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"completed\":\"Y\"\r\n}",
+					"raw": "{\r\n    \"completed\":\"N\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -308,7 +308,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/v1/tasks/12",
+					"raw": "http://localhost/v1/tasks/13",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -316,7 +316,7 @@
 					"path": [
 						"v1",
 						"tasks",
-						"12"
+						"13"
 					]
 				}
 			},
@@ -329,7 +329,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
@@ -356,41 +356,13 @@
 			"response": []
 		},
 		{
-			"name": "GetImage",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost/v1/tasks/11/images/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"path": [
-						"v1",
-						"tasks",
-						"11",
-						"images",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "CreateImage",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
@@ -410,7 +382,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost/v1/tasks/12/images",
+					"raw": "http://localhost/v1/tasks/13/images",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -418,8 +390,36 @@
 					"path": [
 						"v1",
 						"tasks",
-						"12",
+						"13",
 						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetImage",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/v1/tasks/13/images/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"v1",
+						"tasks",
+						"13",
+						"images",
+						"7"
 					]
 				}
 			},
@@ -432,12 +432,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost/v1/tasks/11/images/3/attributes",
+					"raw": "http://localhost/v1/tasks/13/images/7/attributes",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -445,9 +445,9 @@
 					"path": [
 						"v1",
 						"tasks",
-						"11",
+						"13",
 						"images",
-						"3",
+						"7",
 						"attributes"
 					]
 				}
@@ -461,7 +461,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "OTYyZDQ0ZjNmZTQ2NDUyODZlYTEyYmY0NDBiZWE5ZGQ0Y2EzNzU4OWRiMDk0MTA2MTY2OTA1Mzc5Ng==",
+						"value": "MWQ5MDdhM2UxMzk5ZTFiYTJhY2UyZjM1YTA1NzU1MDgyZjE2MDQyZjIzYThjNGExMTY2OTEwOTY4MQ==",
 						"type": "text"
 					}
 				],
@@ -475,7 +475,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/v1/tasks/11/images/3/attributes",
+					"raw": "http://localhost/v1/tasks/13/images/7/attributes",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -483,9 +483,9 @@
 					"path": [
 						"v1",
 						"tasks",
-						"11",
+						"13",
 						"images",
-						"3",
+						"7",
 						"attributes"
 					]
 				}

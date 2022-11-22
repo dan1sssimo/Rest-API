@@ -5,7 +5,7 @@ class DB
     private static $writeDBConnection;
     private static $readDBConnection;
 
-    public static function connectWriteDB()
+    public static function connectWriteDB(): PDO
     {
         if (self::$writeDBConnection === null) {
             self::$writeDBConnection = new PDO('mysql:host=localhost;dbname=tasksdb;charset=utf8', 'root', 'root');
@@ -16,7 +16,7 @@ class DB
         return self::$writeDBConnection;
     }
 
-    public static function connectReadDB()
+    public static function connectReadDB(): PDO
     {
         if (self::$readDBConnection === null) {
             self::$readDBConnection = new PDO('mysql:host=localhost;dbname=tasksdb;charset=utf8', 'root', 'root');
@@ -26,14 +26,5 @@ class DB
 
         return self::$readDBConnection;
     }
-
-
-
-
-
-
-
-
-
 
 }

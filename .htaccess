@@ -13,20 +13,20 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond ${REQUEST_FILENAME} !-f
 
 # Tasks
-RewriteRule ^tasks/(\d+)$ controller/task.php?taskid=$1 [L]
-RewriteRule ^tasks/complete$ controller/task.php?completed=Y [L]
-RewriteRule ^tasks/incomplete$ controller/task.php?completed=N [L]
-RewriteRule ^tasks/page/(\d+)$ controller/task.php?page=$1 [L]
-RewriteRule ^tasks$ controller/task.php [L]
+RewriteRule ^tasks/(\d+)$ controller/Tasks.php?taskid=$1 [L]
+RewriteRule ^tasks/complete$ controller/Tasks.php?completed=Y [L]
+RewriteRule ^tasks/incomplete$ controller/Tasks.php?completed=N [L]
+RewriteRule ^tasks/page/(\d+)$ controller/Tasks.php?page=$1 [L]
+RewriteRule ^tasks$ controller/Tasks.php [L]
 
 # Users
-RewriteRule ^users$ controller/users.php [L]
+RewriteRule ^users$ controller/Users.php [L]
 
 # Authentication
-RewriteRule ^sessions/(\d+)$ controller/sessions.php?sessionid=$1 [L]
-RewriteRule ^sessions$ controller/sessions.php [L]
+RewriteRule ^sessions/(\d+)$ controller/Sessions.php?sessionid=$1 [L]
+RewriteRule ^sessions$ controller/Sessions.php [L]
 
 # Images
-RewriteRule ^tasks/(\d+)/images/(\d+)/attributes$ controller/images.php?taskid=$1&imageid=$2&attributes=true [L]  # handle image
-RewriteRule ^tasks/(\d+)/images/(\d+)$ controller/images.php?taskid=$1&imageid=$2 [L]
-RewriteRule ^tasks/(\d+)/images$ controller/images.php?taskid=$1 [L]
+RewriteRule ^tasks/(\d+)/images/(\d+)/attributes$ controller/Images.php?taskid=$1&imageid=$2&attributes=true [L]  # handle image
+RewriteRule ^tasks/(\d+)/images/(\d+)$ controller/Images.php?taskid=$1&imageid=$2 [L]
+RewriteRule ^tasks/(\d+)/images$ controller/Images.php?taskid=$1 [L]

@@ -14,6 +14,9 @@ class Task
     private $_images;
 
 
+    /**
+     * @throws TaskException
+     */
     public function __construct($id, $title, $description, $deadline, $completed, $images = array())
     {
         $this->setID($id);
@@ -55,6 +58,9 @@ class Task
         return $this->_images;
     }
 
+    /**
+     * @throws TaskException
+     */
     public function setID($id)
     {
         if (($id !== null) && (!is_numeric($id) || $id <= 0 || $id >= 9223372036854775807 || $this->_id !== null)) {
@@ -63,6 +69,9 @@ class Task
         $this->_id = $id;
     }
 
+    /**
+     * @throws TaskException
+     */
     public function setTitle($title)
     {
         if (strlen($title) < 0 || strlen($title) > 255) {
@@ -71,6 +80,9 @@ class Task
         $this->_title = $title;
     }
 
+    /**
+     * @throws TaskException
+     */
     public function setDescription($description)
     {
         if (($description !== null) && (strlen($description) > 16777215)) {
@@ -79,6 +91,9 @@ class Task
         $this->_description = $description;
     }
 
+    /**
+     * @throws TaskException
+     */
     public function setDeadline($deadline)
     {
         if (($deadline !== null) && date_format(date_create_from_format('d/m/Y H:i', $deadline), 'd/m/Y H:i') != $deadline) {
@@ -87,6 +102,9 @@ class Task
         $this->_deadline = $deadline;
     }
 
+    /**
+     * @throws TaskException
+     */
     public function setCompleted($completed)
     {
         if (strtoupper($completed) !== 'Y' && strtoupper($completed) !== 'N') {
@@ -95,6 +113,9 @@ class Task
         $this->_completed = $completed;
     }
 
+    /**
+     * @throws TaskException
+     */
     public function setImages($images)
     {
         if (!is_array($images)) {
@@ -103,7 +124,7 @@ class Task
         $this->_images = $images;
     }
 
-    public function returnTaskAsArray()
+    public function returnTaskAsArray(): array
     {
         $task = array();
         $task['id'] = $this->getID();
@@ -114,6 +135,4 @@ class Task
         $task['images'] = $this->getImages();
         return $task;
     }
-
-
 }
