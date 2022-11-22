@@ -4,7 +4,7 @@ require_once('DB.php');
 require_once('../model/Task.php');
 require_once('../model/Response.php');
 require_once('../model/Image.php');
-require_once('../Utils/ResponseFunc.php');
+require_once('../utils/ResponseFunc.php');
 
 /**
  * @throws ImageException
